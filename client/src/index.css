@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.loginForm {
+  @apply flex flex-col gap-2 items-center;
+}
+
+.loginContainer {
+  @apply border-2 border-black p-2 rounded-md w-full;
+}
+
+.loginInput {
+  @apply border-2 border-black py-1 px-2 rounded-md w-full;
+}
+
+.loginButton {
+  @apply border-2 border-black py-2 px-6 rounded-md;
+}
