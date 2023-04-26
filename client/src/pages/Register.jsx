@@ -25,7 +25,7 @@ const Register = () => {
   return (
     <>
       <h1>Register</h1>
-      <form className='loginForm'>
+      <form className='loginForm' onSubmit={(e) => submitRegister(e)}>
         <div className='loginContainer'>
           <label htmlFor=''>Username:</label>
           <input
@@ -37,7 +37,9 @@ const Register = () => {
               setUserInfo({ ...userInfo, username: e.target.value })
             }
           />
-          {errors?.username?.message ?? <p>{errors?.username?.message}</p>}
+          {errors?.username?.message ?? (
+            <p className='loginError'>{errors?.username?.message}</p>
+          )}
         </div>
         <div className='loginContainer'>
           <label htmlFor=''>Email:</label>
@@ -50,7 +52,9 @@ const Register = () => {
               setUserInfo({ ...userInfo, email: e.target.value })
             }
           />
-          {errors?.email?.message ?? <p>{errors?.email?.message}</p>}
+          {errors?.email?.message ?? (
+            <p className='loginError'>{errors?.email?.message}</p>
+          )}
         </div>
         <div className='loginContainer'>
           <label htmlFor=''>Password:</label>
@@ -63,7 +67,9 @@ const Register = () => {
               setUserInfo({ ...userInfo, password: e.target.value })
             }
           />
-          {errors?.password?.message ?? <p>{errors?.password?.message}</p>}
+          {errors?.password?.message ?? (
+            <p className='loginError'>{errors?.password?.message}</p>
+          )}
         </div>
         <div className='loginContainer'>
           <label htmlFor=''>Confirm Password:</label>
@@ -77,12 +83,10 @@ const Register = () => {
             }
           />
           {errors?.confirmPassword?.message ?? (
-            <p>{errors?.confirmPassword?.message}</p>
+            <p className='loginError'>{errors?.confirmPassword?.message}</p>
           )}
         </div>
-        <button className='loginButton' onClick={(e) => submitRegister(e)}>
-          Register Account
-        </button>
+        <button className='loginButton'>Register Account</button>
       </form>
     </>
   );

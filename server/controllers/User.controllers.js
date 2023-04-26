@@ -46,4 +46,48 @@ module.exports = {
         .catch((err) => res.status(400).json(err));
     }
   },
+  login: async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (user === null) {
+      return res.status(400).json({
+        errors: {
+          email: {
+            message: "this email has not been registered",
+          },
+        },
+      });
+    }
+
+    const correctPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+
+    if (!correctPassword) {
+      return res.status(400).json({
+        errors: {
+          email: {
+            message: "this was not the right password",
+          },
+        },
+      });
+    }
+
+    const usertoken = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.SECRET_KEY
+    );
+
+    res
+      .cookie("usertoken", usertoken, process.SECRET_KEY, {
+        httpOnly: true,
+      })
+      .json({ username: user.username });
+  },
+  logout: (req, res) => {
+    res.clearCookie("usertoken").sendStatus(200);
+  },
 };
