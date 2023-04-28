@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// context
+import { UserContext } from "../contexts/UserContext";
+
 const Login = () => {
+  const navigate = useNavigate();
+  const { setCurrentUser } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -12,7 +18,10 @@ const Login = () => {
     e.preventDefault();
     axios
       .post("/api/user/login", userInfo, { withCredentials: true })
-      .then((user) => console.log(user))
+      .then((res) => {
+        setCurrentUser(res.data);
+        navigate("/");
+      })
       .catch((err) => console.log(err));
   };
 

@@ -14,8 +14,13 @@
   @apply border-2 border-black p-2 rounded-md w-full;
 }
 
-.loginInput {
+input,
+textarea {
   @apply border-2 border-black py-1 px-2 rounded-md w-full;
+}
+
+textarea {
+  @apply h-24;
 }
 
 .loginButton {

@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
+// contexts
+import { UserContext } from "../../contexts/UserContext";
+
+// components
+import LogoutButton from "../ui/LogoutButton";
+
 const Header = () => {
+  const { currentUser } = useContext(UserContext);
+  console.log(currentUser);
   return (
     <header className='border-b-2 border-black'>
       <nav className='max-w-7xl mx-auto flex justify-between px-4 h-24 items-center'>
@@ -20,18 +28,30 @@ const Header = () => {
             />
           </svg>
         </Link>
-        <div className='flex gap-3'>
-          <Link
-            to='/login'
-            className='px-4 py-2 bg-slate-200 rounded-md font-semibold'>
-            Login
-          </Link>
-          <Link
-            to='/register'
-            className='px-4 py-2 bg-slate-200 rounded-md font-semibold'>
-            Register
-          </Link>
-        </div>
+        {currentUser ? (
+          <div className='flex gap-3 items-center'>
+            <p>Hello, {currentUser?.username}</p>
+            <Link
+              to='/new'
+              className='px-4 py-2 bg-slate-200 rounded-md font-semibold'>
+              New Post
+            </Link>
+            <LogoutButton />
+          </div>
+        ) : (
+          <div className='flex gap-3'>
+            <Link
+              to='/login'
+              className='px-4 py-2 bg-slate-200 rounded-md font-semibold'>
+              Login
+            </Link>
+            <Link
+              to='/register'
+              className='px-4 py-2 bg-slate-200 rounded-md font-semibold'>
+              Register
+            </Link>
+          </div>
+        )}
       </nav>
     </header>
   );

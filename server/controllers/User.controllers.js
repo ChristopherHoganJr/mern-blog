@@ -85,9 +85,24 @@ module.exports = {
       .cookie("usertoken", usertoken, process.SECRET_KEY, {
         httpOnly: true,
       })
-      .json({ username: user.username });
+      .json({ id: user._id, username: user.username });
   },
   logout: (req, res) => {
     res.clearCookie("usertoken").sendStatus(200);
+  },
+  publicProfile: async (req, res) => {
+    if (req?.cookies?.usertoken == null)
+      return res.status(400).json({ message: "Please log in" });
+    else {
+      let decoded = jwt.verify(req.cookies.usertoken, process.env.SECRET_KEY);
+
+      User.findById(decoded.id)
+        .then((user) => {
+          res.status(200).json({
+            username: user.username,
+          });
+        })
+        .catch((error) => res.status(400).json({ errors: "please log in" }));
+    }
   },
 };
